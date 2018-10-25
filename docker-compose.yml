@@ -10,20 +10,20 @@ services:
    networks:
      - dev
 
- redis:
+ redisserver:
    image: sameersbn/redis:latest
    ports:
      - "6379:6379"
    volumes:
      - redis_data:/var/lib/redis
    restart: always
+   networks:
+     - dev
 
  mysql:
      image: mysql:latest
      restart: always
      command: --default-authentication-plugin=mysql_native_password
-     networks:
-       - dev
      ports:
        - "3306:3306"
      environment:
@@ -32,6 +32,8 @@ services:
        MYSQL_PASS: 'test'
      volumes:
        - mysql_data:/var/lib/mysql
+     networks:
+        - dev
 
 
 
@@ -41,40 +43,41 @@ services:
      - "8088:8088"
    environment:
      - SPRING_PROFILES_ACTIVE=svt
-   networks:
-     - dev
    depends_on: #先启动eurekaserver
      - eurekaserver
    links: #从这个容器访问eurekaserver容器
       - eurekaserver
-
+   networks:
+      - dev
  account:
     build: ./account
     ports:
       - "8083:8083"
     environment:
          - SPRING_PROFILES_ACTIVE=svt
-    networks:
-      - dev
     depends_on:
       - eurekaserver
     links:
       - eurekaserver
-
+    networks:
+      - dev
 
  xfauth:
      build: ./xfauth
      ports:
        - "5000:5000"
-     networks:
-       - dev
      environment:
           - SPRING_PROFILES_ACTIVE=svt
      depends_on:
        - eurekaserver
+       - redisserver
+       - mysql
      links:
        - eurekaserver
        - mysql
+       - redisserver
+     networks:
+        - dev
 
 networks:
   dev:
