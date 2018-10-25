@@ -1,0 +1,28 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:6761}/eureka/ #没有配置就使用默认值
+
+spring:
+  application:
+    name: account-service
+  profiles:
+      active: ${SPRING_PROFILES_ACTIVE:dev}
+server:
+  port: 8083
+auth-url: localhost:5000
+security:
+  oauth2:
+    resource:
+      id: account-service
+      user-info-uri: http://${auth-url}/user # 这里是授权服务的地址，即auth-service
+      prefer-token-info: false
+
+---
+spring:
+  profiles: svt
+
+auth-url: auth-service
+eureka:
+  host: eurekaserver #测试环境的地址
+  port: 6761 #测试环境的端口

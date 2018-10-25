@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: api-gateway
+  profiles:
+     active: ${SPRING_PROFILES_ACTIVE:dev}
+server:
+  port: 8088
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:6761}/eureka/ #没有配置就使用默认值
+
+zuul:
+  routes:
+    uaa:
+      path: /uaa/**
+      sensitiveHeaders: "*"
+      serviceId: auth-service
+    order:
+      path: /accounts/**
+      sensitiveHeaders: "*"
+      serviceId: account-service
+  add-proxy-headers: true
+
+security:
+  oauth2:
+    client:
+      access-token-uri: http://${spring.application.name}:${server.port}/uaa/oauth/token
+      user-authorization-uri: http://${spring.application.name}:${server.port}/uaa/oauth/authorize
+      client-id: webapp
+    resource:
+      user-info-uri: http://${spring.application.name}:${server.port}/uaa/user
+      prefer-token-info: false
+
+
+---
+spring:
+  profiles: svt
+eureka:
+  host: eurekaserver #测试环境的地址
