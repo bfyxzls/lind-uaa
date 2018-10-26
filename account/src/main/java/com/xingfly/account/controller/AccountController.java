@@ -22,6 +22,7 @@ public class AccountController {
 
     @GetMapping("/query")
     @PreAuthorize("hasAnyAuthority('query')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String query() {
         return "具有query权限";
     }

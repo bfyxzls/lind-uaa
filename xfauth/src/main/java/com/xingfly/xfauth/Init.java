@@ -19,45 +19,55 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class Init implements CommandLineRunner {
-    private UserService userService;
-    private AuthorityRepository authorityRepository;
-    private RoleRepository roleRepository;
+  private UserService userService;
+  private AuthorityRepository authorityRepository;
+  private RoleRepository roleRepository;
 
-    @Override
-    public void run(String... strings) throws Exception {
+  @Override
+  public void run(String... strings) throws Exception {
 
-        //权限
-        Authority authority = new Authority();
-        authority.setName("查询");
-        authority.setValue("query");
-        authorityRepository.save(authority);
+    //权限
+    Authority authority = new Authority();
+    authority.setName("查询");
+    authority.setValue("query");
+    authorityRepository.save(authority);
+    Authority authority2 = new Authority();
+    authority2.setName("添加");
+    authority2.setValue("add");
+    authorityRepository.save(authority2);
 
-        //角色
-        Role admin = new Role();
-        admin.setName("管理员");
-        admin.setValue("ROLE_ADMIN");
-        admin.setAuthorities(Sets.newHashSet(authorityRepository.findOne(1L)));
-        roleRepository.save(admin);
+    //角色
+    Role admin = new Role();
+    admin.setName("管理员");
+    admin.setValue("ROLE_ADMIN");
+    admin.setAuthorities(
+        Sets.newHashSet(
+            authorityRepository.findOne(1L),
+            authorityRepository.findOne(2L)
+        )
+    );
 
-        Role role = new Role();
-        role.setName("普通用户");
-        role.setValue("ROLE_USER");
-        roleRepository.save(role);
+    roleRepository.save(admin);
 
-
-        //用户
-        User fpf = new User();
-        fpf.setUsername("fpf");
-        fpf.setPassword("fpf");
-        fpf.setRoles(Sets.newHashSet(roleRepository.findOne(1L)));
-        userService.createUser(fpf);
-
-        User wl = new User();
-        wl.setUsername("wl");
-        wl.setPassword("wl");
-        wl.setRoles(Sets.newHashSet(roleRepository.findOne(2L)));
-        userService.createUser(wl);
+    Role role = new Role();
+    role.setName("普通用户");
+    role.setValue("ROLE_USER");
+    roleRepository.save(role);
 
 
-    }
+    //用户
+    User fpf = new User();
+    fpf.setUsername("fpf");
+    fpf.setPassword("fpf");
+    fpf.setRoles(Sets.newHashSet(roleRepository.findOne(1L)));
+    userService.createUser(fpf);
+
+    User wl = new User();
+    wl.setUsername("wl");
+    wl.setPassword("wl");
+    wl.setRoles(Sets.newHashSet(roleRepository.findOne(2L)));
+    userService.createUser(wl);
+
+
+  }
 }
