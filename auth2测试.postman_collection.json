@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "e150de29-9fe4-41d1-b032-d2b0641c5d71",
+		"name": "\bauth2测试",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "uaa-授权登陆",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "android",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "android",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8088/uaa/oauth/token?grant_type=password&username=fpf&password=fpf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"uaa",
+						"oauth",
+						"token"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "password"
+						},
+						{
+							"key": "username",
+							"value": "fpf"
+						},
+						{
+							"key": "password",
+							"value": "fpf"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uaa-获取用户授权信息",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "access_token",
+						"value": "60a7e7b9-078f-4712-9277-2f4476afd031",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8088/uaa/user?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"uaa",
+						"user"
+					],
+					"query": [
+						{
+							"key": "access_token",
+							"value": "60a7e7b9-078f-4712-9277-2f4476afd031",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uaa-获取具体资源",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8088/accounts/query?access_token=e72d4490-3919-4639-9e45-d07ff9c8fb5a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"accounts",
+						"query"
+					],
+					"query": [
+						{
+							"key": "access_token",
+							"value": "e72d4490-3919-4639-9e45-d07ff9c8fb5a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uaa-没有资源的权限",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "android",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "android",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8088/accounts/add?access_token=db5817fa-42ee-4759-b6a0-39d4ce6b8060",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"accounts",
+						"add"
+					],
+					"query": [
+						{
+							"key": "access_token",
+							"value": "db5817fa-42ee-4759-b6a0-39d4ce6b8060"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uaa-注销token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "android",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "android",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"productName\":\"test\",\n\t\"shortDescription\":\"测试产品\",\n\t\"inventoryId\":\"1\",\n\t\"longDescription\":\"测试产品\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8088/uaa/oauth/token?access_token=a907b363-9a11-4157-a992-e412136649ca",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"uaa",
+						"oauth",
+						"token"
+					],
+					"query": [
+						{
+							"key": "access_token",
+							"value": "a907b363-9a11-4157-a992-e412136649ca"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
